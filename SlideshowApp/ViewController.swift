@@ -38,11 +38,20 @@ class ViewController: UIViewController {
     
     // 画像タップ
     @IBAction func tapImage(_ sender: Any) {
-        // スライドショー再生時以外
-        if self.timer == nil {
-            // 画面遷移
-            performSegue(withIdentifier: "imageTap",sender: nil)
+        // スライドショー再生時
+        if self.timer != nil {
+            // タイマー停止
+            self.timer.invalidate()
+            // 初期化
+            self.timer = nil
+            // 進む、戻るボタン有効
+            nextButton.isEnabled = true
+            backButton.isEnabled = true
+            // ボタン名を「再生」に変更
+            startStopButton.setTitle("再生", for: .normal)
         }
+        // 画面遷移
+        performSegue(withIdentifier: "imageTap",sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -107,6 +116,7 @@ class ViewController: UIViewController {
     @IBAction func unwind(_ segue: UIStoryboardSegue) {
         // 他の画面から segue を使って戻ってきた時に呼ばれる
         setImageView(imgNo)
+        
     }
     
     // 引数をもとにimageViewに設定する関数
